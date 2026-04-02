@@ -6,7 +6,13 @@ SECRET_KEY = 'django-insecure-dummy-key-change-me'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
-INSTALLED_APPS = ['rest_framework', 'corsheaders', 'api']
+INSTALLED_APPS = [
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'rest_framework',
+    'corsheaders',
+    'api'
+]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

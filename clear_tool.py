@@ -81,6 +81,11 @@ def _clean_python_cache(dry_run: bool) -> CleanupStats:
 
 def run_cleanup(dry_run: bool) -> dict[str, CleanupStats]:
     return {
+        "readme_img": _clean_by_suffixes(
+            PROJECT_ROOT / "readme_img",
+            (".png", ".jpg", ".jpeg", ".webp", ".gif", ".html", ".svg"),
+            dry_run,
+        ),
         "tmp_images": _clean_by_suffixes(
             PROJECT_ROOT / "tmp_img",
             (".png", ".jpg", ".jpeg", ".webp", ".gif", ".html", ".svg"),
