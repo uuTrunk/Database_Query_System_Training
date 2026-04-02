@@ -1,3 +1,4 @@
+# Intermediate generation and log files
 gened_questions/
 output_store/ask-graph/
 output_store/data_log/
@@ -5,4 +6,11 @@ readme_img/
 saves/
 tmp_img/
 train_logs/
+
+# Python caches
+__pycache__/
+*.pyc
+
+# Django specific
+db.sqlite3
 

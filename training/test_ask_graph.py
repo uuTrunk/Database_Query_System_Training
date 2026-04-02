@@ -1,6 +1,5 @@
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent / 'Database_Query_System_Agent'))
 import base64
 import json
 import os
@@ -151,8 +150,8 @@ def _build_request(question_text: str) -> dict:
 if __name__ == "__main__":
     ensure_runtime_directories()
 
-    host = config_data["server"]["host"]
-    port = config_data["server"]["port"]
+    host = "127.0.0.1"
+    port = config_data.get("agent_port", 8000)
     if not wait_for_server_ready(host, port, logger=logger):
         raise SystemExit("Server is not reachable. Exiting.")
 

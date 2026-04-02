@@ -15,6 +15,20 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+
+    try:
+        import yaml
+        from pathlib import Path
+        config_path = Path(__file__).resolve().parent / 'config' / 'config.yaml'
+        with open(config_path, 'r', encoding='utf-8') as f:
+            cfg = yaml.safe_load(f)
+            target_port = str(cfg.get('training_port', '8001'))
+    except Exception:
+        target_port = '8001'
+        
+    if len(sys.argv) == 2 and sys.argv[1] == "runserver":
+        sys.argv.append(target_port)
+
     execute_from_command_line(sys.argv)
 
 

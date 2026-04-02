@@ -40,3 +40,5 @@ def ensure_runtime_directories() -> None:
             SAVES_DIR,
         ]
     )
+
+DEFAULT_SERVER_PORT = 8000

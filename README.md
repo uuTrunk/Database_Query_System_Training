@@ -4,6 +4,20 @@
 
 ## 核心架构构成
 
+### 环境配置 (Conda)
+为了方便新用户快速启动，建议使用 Conda 创建独立的 Python 运行环境，并依据项目中的 `requirement.txt` 安装相关依赖：
+```bash
+# 1. 创建名为 dqs 的 conda 环境 (Python 3.9)
+conda create -n dqs python=3.9 -y
+
+# 2. 激活环境
+conda activate dqs
+
+# 3. 安装项目依赖
+pip install -r requirement.txt
+```
+
+
 本项目由两大部分组成：
 
 ### 1. 并发预测模型调度微服务 (Django Backend `8001` 端口)
@@ -36,7 +50,7 @@ python main.py runserver 8001
 conda activate dqs
 # 步骤 1：生成或更新训练问题集缓存
 python -m training.gen_training_questions 
-# 步骤 2：生成或更新基于 Agent 的脱机成功率验证大模型分析指标底库（最持久的环节）
+# 步骤 2：生成或更新基于 Agent 的脱机成功率验证大模型分析指标底库（需要Agent服务开启）
 python -m training.test_ask_graph 
 # 步骤 3：正式启动并取代现有的 .pth 存档
 python -m training.model

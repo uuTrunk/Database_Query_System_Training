@@ -4,6 +4,20 @@ This segregated repository houses the **Machine Learning Concurrency Scheduling 
 
 ## Core Roles & Architecture
 
+### Environment Setup (Conda)
+For an expedited setup experience, we recommend using Conda to provision a dedicated python environment and installing the dependencies via `requirement.txt`:
+```bash
+# 1. Create a conda environment named "dqs" (Python 3.9)
+conda create -n dqs python=3.9 -y
+
+# 2. Activate the environment
+conda activate dqs
+
+# 3. Install the dependencies
+pip install -r requirement.txt
+```
+
+
 This specialized module features two definitive components:
 
 ### 1. The Concurrency Expectation Service (Django Backend port `8001`)

@@ -1,6 +1,5 @@
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent / 'Database_Query_System_Agent'))
 from pathlib import Path
 
 import pandas as pd
