@@ -23,7 +23,7 @@ pip install -r requirement.txt
 ### 1. 并发预测模型调度微服务 (Django Backend `8001` 端口)
 - **`training_backend/`**: Django 项目的设定目录。
 - **`api/`**: 提供一个 `http://localhost:8001/api/predict` 预测接口。
-- **作用**: 在接到前端 `Controller` 的问句以后，后端代码会利用基于先前预处理的 BERT（多语言版）回归加载本地的 `saves/model_best.pth` 进行预测分析。最终按照推算，返还能使得系统整体生成成功率达 `99%` 的推荐线程利用数（限制由于接口瓶颈，会在 1~5 的范围内）。
+- **作用**: 在接到前端 `Controller` 的问句以后，后端代码会利用基于先前预处理的 BERT（多语言版）回归加载本地的 `saves/model_best.pth` 进行预测分析。最终按照推算，返还能使得系统整体生成成功率达 `99.99%` 的推荐线程利用数（限制由于接口瓶颈，会在 1~5 的范围内）。
 
 ### 2. 数据生产流水线 (Training Pipelines)
 - **`training/`**: 存放了模型机器学习流水线相关的纯 Python 脚本，包括数据采样、`gen_training_questions.py`标签抽离与最终执行深度下落预测权重的生成(`model.py`)。 
