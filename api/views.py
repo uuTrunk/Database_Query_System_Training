@@ -14,10 +14,10 @@ class PredictRequestModel(BaseModel):
     text: str
 
 def calculate_optimal_threads(success_prob: float) -> int:
-    p = max(0.0, min(float(success_prob), 0.9999))
-    if p >= 0.9999: return 1
+    p = max(0.0, min(float(success_prob), 0.999999))
+    if p > 0.999999: return 1
     if p <= 0: return 5
-    required_threads = math.ceil(math.log(0.0001) / math.log(1 - p))
+    required_threads = math.ceil(math.log(0.000001) / math.log(1 - p))
     return max(1, min(required_threads, 5))
 
 class PredictView(APIView):
