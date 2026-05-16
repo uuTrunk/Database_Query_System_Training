@@ -134,10 +134,12 @@ def training(epochs: int = 100, threshold: float = 0.1, lr: float = 1e-5) -> Non
     random.seed(42)
     torch.manual_seed(42)
 
+    # 准备运行目录，确保日志和模型保存路径都已存在。
     ensure_runtime_directories()
     timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     log_file_name = TRAIN_LOG_DIR / f"log_{timestamp}.csv"
 
+    # 从离线日志中构建训练、验证和测试集。
     (
         train_dataloader_success_rate,
         val_dataloader_success_rate,
@@ -153,6 +155,7 @@ def training(epochs: int = 100, threshold: float = 0.1, lr: float = 1e-5) -> Non
     device = torch.device("cpu")
     model.to(device)
 
+    # 该任务是回归问题，使用均方误差拟合 success_rate。
     loss_function = nn.MSELoss()
     optimizer = Adam(model.parameters(), lr=lr)
 
@@ -175,6 +178,7 @@ def training(epochs: int = 100, threshold: float = 0.1, lr: float = 1e-5) -> Non
         total_samples_train = 0
         sum_abs_error_train = 0.0
 
+        # 训练阶段：逐批编码文本并反向传播更新参数。
         for x, y in train_dataloader_success_rate:
             y = y.float().to(device)
             total_samples_train += len(y)
@@ -208,6 +212,7 @@ def training(epochs: int = 100, threshold: float = 0.1, lr: float = 1e-5) -> Non
         sum_abs_error_val = 0.0
         total_samples_val = 0
 
+        # 验证阶段：只计算误差，不更新参数，用于挑选最佳模型。
         with torch.no_grad():
             for x, y in val_dataloader_success_rate:
                 y = y.float().to(device)
@@ -237,6 +242,7 @@ def training(epochs: int = 100, threshold: float = 0.1, lr: float = 1e-5) -> Non
                 f"Val Baseline Avg Error: {val_baseline_abs_error}"
             )
 
+            # 验证误差更低时，保存当前最优模型。
             if val_avg_abs_error < best_val_error:
                 best_val_error = val_avg_abs_error
                 torch.save(model.state_dict(), best_model_path)
@@ -251,6 +257,7 @@ def training(epochs: int = 100, threshold: float = 0.1, lr: float = 1e-5) -> Non
             [epoch, train_loss_avg, train_accuracy, train_avg_abs_error, val_accuracy, val_avg_abs_error],
         )
 
+        # 每 10 个 epoch 保存一次检查点，便于中断后恢复或回溯。
         if epoch % 10 == 9:
             checkpoint_timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
             checkpoint_path = SAVES_DIR / f"model_{epoch}_{checkpoint_timestamp}.pth"
@@ -265,6 +272,7 @@ def training(epochs: int = 100, threshold: float = 0.1, lr: float = 1e-5) -> Non
     sum_abs_error_test = 0.0
     total_samples_test = 0
 
+    # 测试阶段：在最终保留集上评估训练结果。
     with torch.no_grad():
         for x, y in test_dataloader_success_rate:
             y = y.float().to(device)
@@ -287,6 +295,7 @@ def training(epochs: int = 100, threshold: float = 0.1, lr: float = 1e-5) -> Non
         else:
             print("Test Skipped (no samples)")
 
+    # 将最终训练得到的模型再保存一份，作为本次训练的最终产物。
     final_timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     final_model_path = SAVES_DIR / f"model_final_{final_timestamp}.pth"
     torch.save(model.state_dict(), final_model_path)
